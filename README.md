@@ -1,2 +1,2 @@
-# Single cell differential expression
+# Single-cell differential expression
 
