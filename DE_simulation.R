@@ -66,12 +66,14 @@ batchCells <- n.cells*3  # number of cells in total obtained from 3 mice. ie 100
 
 
 # first batch (i.e control group)  
+set.seed(2020)
 sim <- SCRIPsimu(data=raw_counts, params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV", libsize=NULL, bcv.shrink=1,
                  base_allcellmeans_SC= base_allcellmeans, Dropout_rate=0) 
 
 exps <- counts(sim)
 
 # second group (i.e treated group) with some DEG introduced
+set.seed(2020)
 sim.dif <- SCRIPsimu(data=raw_counts, params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV",libsize=NULL, bcv.shrink=1,
                  base_allcellmeans_SC= base_allcellmeansDE, Dropout_rate=0) 
 
