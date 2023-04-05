@@ -34,6 +34,7 @@ raw_counts <- obj[["sketch"]]$data
 raw_counts <- raw_counts [ ,1:100]
 raw_counts <- raw_counts[rev (order (apply (raw_counts, 1, sum))) , ]
 raw_counts <- raw_counts[1:12000, ]
+raw_counts <- data.matrix (raw_counts)
 dim (raw_counts)
 # 12000   100
 
