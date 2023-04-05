@@ -2,11 +2,16 @@
 
 library(splatter)
 library(SCRIP)
+library (Seurat)
+
+#data(acinar.data)
+#dim (acinar.data)
+## 1000 genes x 80 cells
+
+## Load a presaved version of 5000 sketched cells from the human prefrontal cortex
+load ("seurat3.RDS")
 
 
-data(acinar.data)
-dim (acinar.data)
-# 1000 genes x 80 cells
 
 
 params <- splatEstimate(acinar.data)
