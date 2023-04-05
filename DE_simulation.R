@@ -30,8 +30,10 @@ obj <- subset (obj, subset = seurat_clusters == 0)
 
 raw_counts <- obj[["sketch"]]$data
 raw_counts <- raw_counts [ ,1:100]
+raw_counts <- raw_counts[rev (order (apply (raw_counts, 1, sum))) , ]
+raw_counts <- raw_counts[1:12000, ]
 dim (raw_counts)
-# 33538   100
+# 12000   100
 
 params <- splatEstimate(data.matrix (raw_counts))
 
@@ -65,18 +67,15 @@ sim <- SCRIPsimu(data=data.matrix (raw_counts), params=params, batchCells=  batc
 
 exps <- counts(sim)
 
-
-
 # second group (i.e treated group) with some DEG introduced
 sim.dif <- SCRIPsimu(data=data.matrix (raw_counts), params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV",libsize=NULL, bcv.shrink=1,
                  base_allcellmeans_SC= base_allcellmeansDE, Dropout_rate=0) 
 
 exps.dif <- counts(sim.dif)                     
 
-
 # cbind the two groups (60 + 60 cells)
 counts <- cbind(exps, exps.dif)
-
+#counts <- counts + 1
 colnames(counts) <- paste0("cell",1:ncol(counts))
 rownames(counts) <- paste0("gene",1:nrow(counts))
 rownames(counts) [DEgene] <- paste (rownames(counts)[DEgene], "-DE", sep="")
@@ -102,7 +101,6 @@ res <- res[res$padj <= 0.05, ]
 
 ## precision (how many are real among the positives? == how good it is)
 table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
-
 ## sensitivity (how many are retrieved among the positives? == what we lost)
 table (grepl ("DE", row.names (res)))[[2]] / nDE
 
@@ -128,7 +126,6 @@ res <- res[res$adj.P.Val <= 0.05, ]
 
 ## precision (how many are real among the positives? == or how good it is)
 table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
-
 ## sensitivity (how many are retrieved among the initial positive set? == or what we didn't lose)
 table (grepl ("DE", row.names (res)))[[2]] / nDE
 
