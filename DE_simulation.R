@@ -6,10 +6,11 @@ library(SCRIP)
 library (Seurat)
 library (BPCells)
 
-#data(acinar.data)
-#raw_counts <- acinar.data
-#dim (raw_counts)
+# data(acinar.data)
+# raw_counts <- acinar.data
+# dim (raw_counts)
 ## 1000 genes x 80 cells
+
 
 ## Load a presaved version of 5000 sketched cells from the human prefrontal cortex
 obj <- readRDS ("seurat3.RDS")
@@ -36,7 +37,8 @@ raw_counts <- raw_counts[1:12000, ]
 dim (raw_counts)
 # 12000   100
 
-params <- splatEstimate(data.matrix (raw_counts))
+
+params <- splatEstimate (raw_counts)
 
 a=getParams(params, c("mean.rate", "mean.shape"))
 rate=a[[1]]
@@ -195,6 +197,7 @@ table (grepl ("DE", row.names (res)))[[2]] / nDE
 
 
 ## DESeq2 pseudobulk
+
 res <- run_de(seurat, de_method = 'DESeq2', de_type = 'Wald', de_family= "pseudobulk")
 res <- data.frame (res)
 res <- res[res$p_val_adj <= 0.05, ]
