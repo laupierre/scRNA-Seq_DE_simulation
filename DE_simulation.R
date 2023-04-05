@@ -6,9 +6,9 @@ library(SCRIP)
 library (Seurat)
 library (BPCells)
 
-# data(acinar.data)
-# raw_counts <- acinar.data
-# dim (raw_counts)
+data(acinar.data)
+raw_counts <- acinar.data
+dim (raw_counts)
 ## 1000 genes x 80 cells
 
 
