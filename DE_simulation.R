@@ -80,7 +80,6 @@ counts <- cbind(exps, exps.dif)
 colnames(counts) <- paste0("cell",1:ncol(counts))
 rownames(counts) <- paste0("gene",1:nrow(counts))
 rownames(counts) [DEgene] <- paste (rownames(counts)[DEgene], "-DE", sep="")
-#### DESeq2 - single cell
 
 
 #######################
