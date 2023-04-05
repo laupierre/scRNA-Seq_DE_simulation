@@ -7,7 +7,8 @@ library (Seurat)
 library (BPCells)
 
 #data(acinar.data)
-#dim (acinar.data)
+#raw_counts <- acinar.data
+#dim (raw_counts)
 ## 1000 genes x 80 cells
 
 ## Load a presaved version of 5000 sketched cells from the human prefrontal cortex
