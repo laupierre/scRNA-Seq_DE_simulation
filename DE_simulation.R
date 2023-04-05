@@ -57,8 +57,8 @@ base_allcellmeansDE <- base_allcellmeans
 base_allcellmeansDE[DEgene[1:(nDE/2)]] <- base_allcellmeansDE[DEgene[1:(nDE/2)]] *fold
 base_allcellmeansDE[DEgene[(nDE/2+1):nDE]] <-base_allcellmeansDE[DEgene[(nDE/2+1):nDE]] *(1/fold)
 
-   
-batchCells <- 60  # number of cells in total obtained from 3 mice. ie 20 cells x 3 replicates of mice x 1 condition = 60
+n.cells <- 20   
+batchCells <- n.cells*3  # number of cells in total obtained from 3 mice. ie 20 cells x 3 replicates of mice x 1 condition = 60
 
 
 # first batch (i.e control group)  
@@ -147,7 +147,7 @@ library(Libra)
 
 seurat <- CreateSeuratObject(as (counts, Class = "dgCMatrix") )
 seurat@meta.data$cell_type <- "mycell_type"
-seurat@meta.data$replicate <- c(rep ("mouse1", 100), rep("mouse2", 100), rep ("mouse3", 100), rep ("mouse1", 100), rep("mouse2", 100), rep ("mouse3", 100))
+seurat@meta.data$replicate <- c(rep ("mouse1", n.cells), rep("mouse2", n.cells), rep ("mouse3", n.cells), rep ("mouse1", n.cells), rep("mouse2", n.cells), rep ("mouse3", n.cells))
 seurat@meta.data$label <- condition
 
 
