@@ -31,7 +31,7 @@ obj <- subset (obj, subset = seurat_clusters == 0)
 raw_counts <- obj[["sketch"]]$data
 raw_counts <- raw_counts [ ,1:100]
 dim (raw_counts)
-
+# 33538   100
 
 params <- splatEstimate(data.matrix (raw_counts))
 
