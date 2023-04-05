@@ -74,7 +74,7 @@ sim.dif <- SCRIPsimu(data=data.matrix (raw_counts), params=params, batchCells=  
 exps.dif <- counts(sim.dif)                     
 
 
-# cbind the two groups (300 + 300 cells)
+# cbind the two groups (60 + 60 cells)
 counts <- cbind(exps, exps.dif)
 
 colnames(counts) <- paste0("cell",1:ncol(counts))
