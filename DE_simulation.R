@@ -1,4 +1,5 @@
 ### Simulate single-cell RNA-Seq reads. See https://github.com/thecailab/SCRIP-study/blob/main/R/DE/DE.R
+### cd /Volumes/king/ad_singlecell
 
 library(splatter)
 library(SCRIP)
