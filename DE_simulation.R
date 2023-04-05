@@ -43,7 +43,7 @@ shape=a[[2]]
 library("TruncatedDistributions")
 set.seed(2020)
 
-ngene <- dim (acinar.data)[1]  # total number of genes
+ngene <- dim (raw_counts)[1]  # total number of genes
 nDE <- ngene/10   # number of DEG. Here we have 10% of total genes
 
 base_allcellmeans <- rtgamma (ngene, shape=shape, scale=1/rate, a=1, b=3)
@@ -60,7 +60,7 @@ batchCells <- 60  # number of cells in total obtained from 3 mice. ie 20 cells x
 
 
 # first batch (i.e control group)  
-sim <- SCRIPsimu(data=acinar.data, params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV", libsize=NULL, bcv.shrink=1,
+sim <- SCRIPsimu(data=data.matrix (raw_counts), params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV", libsize=NULL, bcv.shrink=1,
                  base_allcellmeans_SC= base_allcellmeans, Dropout_rate=0) 
 
 exps <- counts(sim)
@@ -68,7 +68,7 @@ exps <- counts(sim)
 
 
 # second group (i.e treated group) with some DEG introduced
-sim.dif <- SCRIPsimu(data=acinar.data, params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV",libsize=NULL, bcv.shrink=1,
+sim.dif <- SCRIPsimu(data=data.matrix (raw_counts), params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV",libsize=NULL, bcv.shrink=1,
                  base_allcellmeans_SC= base_allcellmeansDE, Dropout_rate=0) 
 
 exps.dif <- counts(sim.dif)                     
