@@ -4,18 +4,36 @@
 library(splatter)
 library(SCRIP)
 library (Seurat)
+library (BPCells)
 
 #data(acinar.data)
 #dim (acinar.data)
 ## 1000 genes x 80 cells
 
 ## Load a presaved version of 5000 sketched cells from the human prefrontal cortex
-load ("seurat3.RDS")
+obj <- readRDS ("seurat3.RDS")
+DefaultAssay(obj) <- "sketch"
+
+## Sketch assay clustering on the 5000 sketched cells
+obj <- FindVariableFeatures(obj)
+obj <- ScaleData(obj)
+obj <- RunPCA(obj)
+obj <- FindNeighbors(obj, dims = 1:50)
+obj <- FindClusters(obj)
+obj <- RunUMAP(obj, dims = 1:50, return.model = T)
+
+# UMAP representation
+DimPlot(obj, label = T, label.size = 5, reduction = "umap") + NoLegend()
+
+## select cluster 0
+obj <- subset (obj, subset = seurat_clusters == 0)
+
+raw_counts <- obj[["sketch"]]$data
+raw_counts <- raw_counts [ ,1:100]
+dim (raw_counts)
 
 
-
-
-params <- splatEstimate(acinar.data)
+params <- splatEstimate(data.matrix (raw_counts))
 
 a=getParams(params, c("mean.rate", "mean.shape"))
 rate=a[[1]]
