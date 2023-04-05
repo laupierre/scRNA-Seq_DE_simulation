@@ -60,8 +60,8 @@ base_allcellmeansDE <- base_allcellmeans
 base_allcellmeansDE[DEgene[1:(nDE/2)]] <- base_allcellmeansDE[DEgene[1:(nDE/2)]] *fold
 base_allcellmeansDE[DEgene[(nDE/2+1):nDE]] <-base_allcellmeansDE[DEgene[(nDE/2+1):nDE]] *(1/fold)
 
-n.cells <- 20   
-batchCells <- n.cells*3  # number of cells in total obtained from 3 mice. ie 20 cells x 3 replicates of mice x 1 condition = 60
+n.cells <- 100   
+batchCells <- n.cells*3  # number of cells in total obtained from 3 mice. ie 100 cells x 3 replicates of mice x 1 condition = 60
 
 
 # first batch (i.e control group)  
