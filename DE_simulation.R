@@ -79,7 +79,7 @@ sim.dif <- SCRIPsimu(data=raw_counts, params=params, batchCells=  batchCells, me
 
 exps.dif <- counts(sim.dif)                     
 
-# cbind the two groups (60 + 60 cells)
+# cbind the two groups (100 + 100 cells)
 counts <- cbind(exps, exps.dif)
 colnames(counts) <- paste0("cell",1:ncol(counts))
 rownames(counts) <- paste0("gene",1:nrow(counts))
