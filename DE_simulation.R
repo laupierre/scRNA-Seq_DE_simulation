@@ -81,6 +81,7 @@ exps.dif <- counts(sim.dif)
 
 # cbind the two groups (100 + 100 cells)
 counts <- cbind(exps, exps.dif)
+counts[is.na (counts)] <- 0
 colnames(counts) <- paste0("cell",1:ncol(counts))
 rownames(counts) <- paste0("gene",1:nrow(counts))
 rownames(counts) [DEgene] <- paste (rownames(counts)[DEgene], "-DE", sep="")
