@@ -47,11 +47,11 @@ shape=a[[2]]
 
 # install.packages("TruncatedDistributions", repos="http://R-Forge.R-project.org")
 library("TruncatedDistributions")
-set.seed(2020)
 
 ngene <- dim (raw_counts)[1]  # total number of genes
 nDE <- ngene/10   # number of DEG. Here we have 10% of total genes
 
+set.seed(2020)
 base_allcellmeans <- rtgamma (ngene, shape=shape, scale=1/rate, a=1, b=3)
 DEgene <- sample(1:length(base_allcellmeans), nDE, replace=F)
 
