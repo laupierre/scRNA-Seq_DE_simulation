@@ -62,26 +62,27 @@ base_allcellmeansDE[DEgene[1:(nDE/2)]] <- base_allcellmeansDE[DEgene[1:(nDE/2)]]
 base_allcellmeansDE[DEgene[(nDE/2+1):nDE]] <-base_allcellmeansDE[DEgene[(nDE/2+1):nDE]] *(1/fold)
 
 n.cells <- 100   
+drop.out <- 0
 batchCells <- n.cells*3  # number of cells in total obtained from 3 mice. ie 100 cells x 3 replicates of mice x 1 condition = 60
 
 
 # first batch (i.e control group)  
 set.seed(2020)
 sim <- SCRIPsimu(data=raw_counts, params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV", libsize=NULL, bcv.shrink=1,
-                 base_allcellmeans_SC= base_allcellmeans, Dropout_rate=0) 
+                 base_allcellmeans_SC= base_allcellmeans, Dropout_rate=drop.out) 
 
 exps <- counts(sim)
 
 # second group (i.e treated group) with some DEG introduced
 set.seed(2020)
 sim.dif <- SCRIPsimu(data=raw_counts, params=params, batchCells=  batchCells, method="single", mode = "GP-trendedBCV",libsize=NULL, bcv.shrink=1,
-                 base_allcellmeans_SC= base_allcellmeansDE, Dropout_rate=0) 
+                 base_allcellmeans_SC= base_allcellmeansDE, Dropout_rate=drop.out) 
 
 exps.dif <- counts(sim.dif)                     
 
 # cbind the two groups (100 + 100 cells)
 counts <- cbind(exps, exps.dif)
-counts[is.na (counts)] <- 0
+#counts[is.na (counts)] <- 0
 colnames(counts) <- paste0("cell",1:ncol(counts))
 rownames(counts) <- paste0("gene",1:nrow(counts))
 rownames(counts) [DEgene] <- paste (rownames(counts)[DEgene], "-DE", sep="")
