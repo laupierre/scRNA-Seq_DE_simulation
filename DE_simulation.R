@@ -140,11 +140,11 @@ table (grepl ("DE", row.names (res)))[[2]] / nDE
 #### Using the Libra wrapper for Seurat object at the pseudobulk level. See https://github.com/neurorestore/Libra
 
 library(dplyr)
-library(Seurat)
 library(ggplot2)
 library(ggrepel)
 library(Libra)
 
+condition <- c (rep ("A", batchCells), rep ("B", batchCells) )
 
 ## replicate is the mouse (or tissue) where the single cells are collected from (to get the pseudobulk of this mouse)
 ## cell_type is the cell type to be analyzed
