@@ -1,6 +1,6 @@
 # Single-cell differential expression
 
-The simulation of single-cell differential gene expression is based on SCRIP and Libra libraries
+The simulation of single-cell RNA-Seq differential gene expression is based on the SCRIP and Libra libraries
 
 https://github.com/neurorestore/Libra
 
