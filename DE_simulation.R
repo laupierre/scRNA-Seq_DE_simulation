@@ -190,6 +190,17 @@ table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
 table (grepl ("DE", row.names (res)))[[2]] / nDE
 
 
+## verify the log fold change orientation
+## here, it is A-B (and not B-A) !!
+
+res.inc <- res[res$avg_logFC < 0 & res$p_val_adj < 0.05, ]
+length (grep ("increased", row.names (res.inc), value=TRUE)) / length (row.names (res.inc))
+
+res.dec <- res[res$avg_logFC > 0 & res$p_val_adj < 0.05, ]
+length (grep ("decreased", row.names (res.dec), value=TRUE)) / length (row.names (res.dec))
+
+
+
 
 ## Likehood ratio test - single cell
 
