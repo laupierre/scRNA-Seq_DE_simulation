@@ -111,8 +111,16 @@ res <- res[res$padj <= 0.05, ]
 
 ## precision (how many are real among the positives? == how good it is)
 table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
-## sensitivity (how many are retrieved among the positives? == what we lost)
+## sensitivity (how many are retrieved among the positives? == what we didn't loose)
 table (grepl ("DE", row.names (res)))[[2]] / nDE
+
+# verify the log fold change orientation
+res.inc <- res[res$log2FoldChange > 0 & res$padj < 0.05, ]
+length (grep ("increased", row.names (res.inc), value=TRUE)) / length (row.names (res.inc))
+
+res.dec <- res[res$log2FoldChange < 0 & res$padj < 0.05, ]
+length (grep ("decreased", row.names (res.dec), value=TRUE)) / length (row.names (res.dec))
+
 
 
 
