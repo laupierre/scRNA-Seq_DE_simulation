@@ -147,6 +147,14 @@ table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
 ## sensitivity (how many are retrieved among the initial positive set? == or what we didn't lose)
 table (grepl ("DE", row.names (res)))[[2]] / nDE
 
+# verify the log fold change orientation
+res.inc <- res[res$logFC > 0 & res$adj.P.Val < 0.05, ]
+length (grep ("increased", row.names (res.inc), value=TRUE)) / length (row.names (res.inc))
+
+res.dec <- res[res$logFC < 0 & res$adj.P.Val < 0.05, ]
+length (grep ("decreased", row.names (res.dec), value=TRUE)) / length (row.names (res.dec))
+
+
 
 
 
