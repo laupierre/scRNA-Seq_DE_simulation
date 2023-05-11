@@ -85,7 +85,10 @@ counts <- cbind(exps, exps.dif)
 counts[is.na (counts)] <- 0
 colnames(counts) <- paste0("cell",1:ncol(counts))
 rownames(counts) <- paste0("gene",1:nrow(counts))
-rownames(counts) [DEgene] <- paste (rownames(counts)[DEgene], "-DE", sep="")
+# rownames(counts) [DEgene] <- paste (rownames(counts)[DEgene], "-DE", sep="")
+rownames(counts) [DEgene[1:(nDE/2)]] <- paste (rownames(counts)[DEgene[1:(nDE/2)]], "-DE-increased", sep="")
+rownames(counts) [DEgene[(nDE/2+1):nDE]] <- paste (rownames(counts)[DEgene[(nDE/2+1):nDE]], "-DE-decreased", sep="")
+
 
 
 #######################
