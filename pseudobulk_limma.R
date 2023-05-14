@@ -63,7 +63,18 @@ rownames(counts) [DEgene[(nDE/2+1):nDE]] <- paste (rownames(counts)[DEgene[(nDE/
 
 
 
-##### Pseudobulk construction
+##### Pseudobulk construction with Libra
+
+library (Libra)
+
+# 100 cells from 3 mice in two conditions (A and B)
+label <- c (rep ("A", batchCells), rep ("B", batchCells) )
+cell <- "mycell_type"
+replicate <- c(rep ("mouse1", n.cells), rep("mouse2", n.cells), rep ("mouse3", n.cells), rep ("mouse1", n.cells), rep("mouse2", n.cells), rep ("mouse3", n.cells))
+
+
+
+
 
 
 
