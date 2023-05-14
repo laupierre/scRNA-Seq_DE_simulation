@@ -64,7 +64,7 @@ rownames(counts) [DEgene[(nDE/2+1):nDE]] <- paste (rownames(counts)[DEgene[(nDE/
 
 
 
-##### Pseudobulk construction with Libra
+##### Pseudobulk construction with Libra (option 1)
 
 library (Libra)
 
@@ -114,6 +114,29 @@ length (grep ("increased", row.names (res.inc), value=TRUE)) / length (row.names
 
 res.dec <- res[res$logFC < 0 & res$adj.P.Val < 0.05, ]
 length (grep ("decreased", row.names (res.dec), value=TRUE)) / length (row.names (res.dec))
+
+
+
+
+##### Manual Pseudobulk construction  (option 2)
+
+meta$mouse <- paste (meta$replicate, meta$label, sep=":")
+mouse <- unique (meta$mouse)
+
+mat <- list ()
+for (i in (1:length (mouse))) {
+mycells <- counts[ ,colnames (counts) %in% row.names (meta)[meta$mouse == mouse[i] ]]
+a <- data.frame (rowSums (mycells))
+row.names (a) <- row.names (mycells)
+colnames (a)[1] <- mouse[i]
+mat[[i]] <- a
+}
+
+pseudo.counts.2 <- do.call ("cbind", mat)
+identical (pseudo.counts, pseudo.counts.2)
+# TRUE
+
+
 
 
 
