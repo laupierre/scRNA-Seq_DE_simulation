@@ -179,7 +179,7 @@ table (grepl ("DE", row.names (res)))[[2]] / nDE
 
 
 ## voomQW with group variability
-y <- voomByGroup(d0, design = mm, group=condition , plot = TRUE)
+y <- voomByGroup(d0, design = mm, group=condition , plot = "all")
 fit <- lmFit(y, mm)
 contr <- makeContrasts(conditionB - conditionA , levels = colnames(coef(fit)))
 tmp <- contrasts.fit(fit, contr)
