@@ -137,6 +137,11 @@ identical (pseudo.counts, pseudo.counts.2)
 # TRUE
 
 
+######
+### Removing heteroscedasticity with Voom
+### See https://github.com/YOU-k/voomByGroup and https://you-k.github.io
+
+
 
 
 
