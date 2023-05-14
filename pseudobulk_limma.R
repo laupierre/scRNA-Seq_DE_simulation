@@ -147,6 +147,9 @@ identical (pseudo.counts, pseudo.counts.2)
 
 # source ("~/voomByGroup/voomByGroup.R")
 
+## remove lowly expressed genes
+##counts[rowSums(counts)>50,]
+
 
 ## voomQW with sample variability
 y <- voomWithQualityWeights(d0, design = mm, plot = TRUE)
