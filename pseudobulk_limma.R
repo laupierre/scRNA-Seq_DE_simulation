@@ -70,11 +70,50 @@ library (Libra)
 
 # 100 cells from 3 mice in two conditions (A and B)
 label <- c (rep ("A", batchCells), rep ("B", batchCells) )
-cell <- "mycell_type"
+cell_type <- "mycell_type"
 replicate <- c(rep ("mouse1", n.cells), rep("mouse2", n.cells), rep ("mouse3", n.cells), rep ("mouse1", n.cells), rep("mouse2", n.cells), rep ("mouse3", n.cells))
 
+meta <- data.frame (cbind (label, cell_type, replicate))
+row.names (meta) <- colnames (counts)
+head (meta)
+
+pseudo.counts <- to_pseudobulk(counts, meta = meta)
+pseudo.counts <- pseudo.counts$mycell_type
+head (pseudo.counts)
 
 
+
+#### Voom-limma
+
+library (edgeR)
+library (limma)
+
+d0 <- DGEList(pseudo.counts)
+d0 <- calcNormFactors(d0)
+  
+condition <- c (rep ("A", 3), rep ("B", 3))
+
+mm <- model.matrix(~0 + condition)
+y <- voom(d0, mm, plot = F)
+fit <- lmFit(y, mm)
+
+contr <- makeContrasts(conditionB - conditionA , levels = colnames(coef(fit)))
+tmp <- contrasts.fit(fit, contr)
+tmp <- eBayes(tmp)
+res <- topTable(tmp, sort.by = "p", n = Inf) 
+res <- res[res$adj.P.Val <= 0.05, ]
+
+## precision (how many are real among the positives? == or how good it is)
+table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
+## sensitivity (how many are retrieved among the initial positive set? == or what we didn't lose)
+table (grepl ("DE", row.names (res)))[[2]] / nDE
+
+# verify the log fold change orientation
+res.inc <- res[res$logFC > 0 & res$adj.P.Val < 0.05, ]
+length (grep ("increased", row.names (res.inc), value=TRUE)) / length (row.names (res.inc))
+
+res.dec <- res[res$logFC < 0 & res$adj.P.Val < 0.05, ]
+length (grep ("decreased", row.names (res.dec), value=TRUE)) / length (row.names (res.dec))
 
 
 
