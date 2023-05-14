@@ -94,9 +94,10 @@ d0 <- calcNormFactors(d0)
 condition <- c (rep ("A", 3), rep ("B", 3))
 
 mm <- model.matrix(~0 + condition)
-y <- voom(d0, mm, plot = F)
-fit <- lmFit(y, mm)
 
+y <- voom(d0, mm, plot = T)
+
+fit <- lmFit(y, mm)
 contr <- makeContrasts(conditionB - conditionA , levels = colnames(coef(fit)))
 tmp <- contrasts.fit(fit, contr)
 tmp <- eBayes(tmp)
@@ -137,10 +138,59 @@ identical (pseudo.counts, pseudo.counts.2)
 # TRUE
 
 
+
+
 ######
 ### Removing heteroscedasticity with Voom
 ### See https://github.com/YOU-k/voomByGroup and https://you-k.github.io
+### git clone https://github.com/YOU-k/voomByGroup.git
 
+# source ("~/voomByGroup/voomByGroup.R")
+
+
+## voomQW with sample variability
+y <- voomWithQualityWeights(d0, design = mm, plot = TRUE)
+fit <- lmFit(y, mm)
+contr <- makeContrasts(conditionB - conditionA , levels = colnames(coef(fit)))
+tmp <- contrasts.fit(fit, contr)
+tmp <- eBayes(tmp)
+res <- topTable(tmp, sort.by = "p", n = Inf) 
+res <- res[res$adj.P.Val <= 0.05, ]
+
+## precision (how many are real among the positives? == or how good it is)
+table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
+## sensitivity (how many are retrieved among the initial positive set? == or what we didn't lose)
+table (grepl ("DE", row.names (res)))[[2]] / nDE
+
+
+## voomQW with block variability
+y <- voomWithQualityWeights(d0, design = mm, var.group=condition , plot = TRUE)
+fit <- lmFit(y, mm)
+contr <- makeContrasts(conditionB - conditionA , levels = colnames(coef(fit)))
+tmp <- contrasts.fit(fit, contr)
+tmp <- eBayes(tmp)
+res <- topTable(tmp, sort.by = "p", n = Inf) 
+res <- res[res$adj.P.Val <= 0.05, ]
+
+## precision (how many are real among the positives? == or how good it is)
+table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
+## sensitivity (how many are retrieved among the initial positive set? == or what we didn't lose)
+table (grepl ("DE", row.names (res)))[[2]] / nDE
+
+
+## voomQW with group variability
+y <- voomByGroup(d0, design = mm, group=condition , plot = TRUE)
+fit <- lmFit(y, mm)
+contr <- makeContrasts(conditionB - conditionA , levels = colnames(coef(fit)))
+tmp <- contrasts.fit(fit, contr)
+tmp <- eBayes(tmp)
+res <- topTable(tmp, sort.by = "p", n = Inf) 
+res <- res[res$adj.P.Val <= 0.05, ]
+
+## precision (how many are real among the positives? == or how good it is)
+table (grepl ("DE", row.names (res)))[[2]] / dim (res)[1]
+## sensitivity (how many are retrieved among the initial positive set? == or what we didn't lose)
+table (grepl ("DE", row.names (res)))[[2]] / nDE
 
 
 
