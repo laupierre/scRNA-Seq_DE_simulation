@@ -119,7 +119,7 @@ length (grep ("decreased", row.names (res.dec), value=TRUE)) / length (row.names
 
 
 
-##### Manual Pseudobulk construction  (option 2)
+##### sanity check: Manual pseudobulk construction  (option 2)
 
 meta$mouse <- paste (meta$replicate, meta$label, sep=":")
 mouse <- unique (meta$mouse)
@@ -179,6 +179,8 @@ table (grepl ("DE", row.names (res)))[[2]] / nDE
 
 
 ## voomQW with group variability
+## see the group-specific mean-variance plots to assess the usage of this method
+
 y <- voomByGroup(d0, design = mm, group=condition , plot = "all")
 fit <- lmFit(y, mm)
 contr <- makeContrasts(conditionB - conditionA , levels = colnames(coef(fit)))
